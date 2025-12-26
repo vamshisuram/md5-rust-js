@@ -1,6 +1,7 @@
 
 // index.js
 const fs = require('fs');
+const crypto = require('crypto');
 
 // Import the wasm package built by wasm-pack
 // Adjust the relative path if your layout differs.
@@ -10,10 +11,16 @@ function md5Photo(path) {
     // Read the entire file into memory (simple approach)
     const buf = fs.readFileSync(path); // Buffer
     // Node Buffer is Uint8Array-compatible; pass directly
-    const start = performance.now();
+    let start = performance.now();
     const data =  rust.md5_bytes(buf);
-    const end = performance.now();
-    console.log("time taken: ", end - start, "ms");
+    let end = performance.now();
+    console.log("time taken by RUST Wasm: ", end - start, "ms - ", data);
+
+    start = performance.now();
+    const hash = crypto.createHash('md5').update(buf).digest('hex');
+    end = performance.now();
+    console.log("time taken by JS: ", end - start, "ms - ", hash);
+
     return data;
 }
 
