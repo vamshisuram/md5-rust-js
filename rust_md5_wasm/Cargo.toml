@@ -1,0 +1,12 @@
+
+[package]
+name = "rust_md5_wasm"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"] # required for wasm
+
+[dependencies]
+wasm-bindgen = "0.2"
+md5 = "0.7"
